@@ -18,7 +18,11 @@
  */
 struct TreeNode *allocate_node(const char *value) {
 
-	return NULL;
+	struct TreeNode *new_node = malloc(sizeof(struct TreeNode*));
+	strcpy(new_node->value, value);
+	new_node->child = NULL;
+	new_node->sibling = NULL;
+	return new_node;
 }
 
 /**
@@ -29,7 +33,44 @@ struct TreeNode *allocate_node(const char *value) {
  *                the image and the last one is the filename
  */
 void tree_insert(struct TreeNode *root, char **values) {
+	//struct TreeNode head = root->child;
+	static int counter = 1;
+
+	if (root->child == NULL) {
+		root->child = allocate_node(*values);
+		if (counter % 5 != 0) {
+			counter++;
+			tree_insert(root->child, values+1);
+			return;
+		} else {
+			//Base case of recursion.
+			counter = 1;
+			return;
+		}
+	}
+	root = root->child;
+
+	while (root != NULL){
+		if (!strcmp(root->value, *values)){
+			tree_insert(root, values+1);
+			return;
+		}
+		if (root->sibling == NULL) {
+			root->sibling = allocate_node(*values);
+			if (counter % 5 != 0) {
+				counter++;
+				tree_insert(root, values+1);
+				return;
+			} else {
+				counter = 1;
+				return;
+			}
+		}
+		root = root->sibling;
+	}
+
 	
+
 }
 
 /**

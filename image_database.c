@@ -9,7 +9,6 @@
 #include "utils.h"
 
 int main(void) {
-
         // char array to hold a line of input
 	char buf[BUFFER_SIZE] = {'\0'};
 
@@ -26,7 +25,8 @@ int main(void) {
 
         // Add your code below:
         while (fgets(buf, BUFFER_SIZE, stdin) != NULL) {
-                if (tokenize(buf, args) > 3) {
+                printf("%d", tokenize(buf, args));
+                if (tokenize(buf, args) > INPUT_ARG_MAX_NUM) {
                         fprintf(stderr, "Invalid command.");
                         exit(1);
                 }

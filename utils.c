@@ -16,12 +16,13 @@ int tokenize(char *cmd, char **cmd_argv) {
         // returning 0 for now, so the compiler does not complain
         int counter = 0;
 
-        char* token = strtok(cmd, DELIMITERS);
+        char *token;
+        token = strtok(cmd, DELIMITERS);
 
         if (token != NULL) {
                 strcpy(*cmd_argv, token);
                 counter++;
-                strcpy(token, strtok(cmd, DELIMITERS));
+                token = strtok(cmd, DELIMITERS);
         } else {
                 fprintf(stderr, "No string was specified");
         }
@@ -29,7 +30,7 @@ int tokenize(char *cmd, char **cmd_argv) {
         while (token != NULL) {
                 strcpy(*(cmd_argv + counter), token);
                 counter++;
-                strcpy(token, strtok(cmd, DELIMITERS));
+                token = strtok(cmd, DELIMITERS);
         }
         
 	return counter;

@@ -24,15 +24,20 @@ int main(void) {
 	struct TreeNode *root_ptr = &root;
 
         // Add your code below:
+        // args[0] = malloc(sizeof(char));
+
+        for (int i = 0; i < INPUT_ARG_MAX_NUM; i++) {
+                args[i] = malloc(sizeof(char)*BUFFER_SIZE);
+        }
+
         while (fgets(buf, BUFFER_SIZE, stdin) != NULL) {
-                printf("%d", tokenize(buf, args));
                 if (tokenize(buf, args) > INPUT_ARG_MAX_NUM) {
                         fprintf(stderr, "Invalid command.");
                         exit(1);
                 }
 
                 if (args[0][0] == 'i'){
-                        tree_insert(root_ptr, args);
+                        tree_insert(root_ptr, (args+1));
                 }
         }
 

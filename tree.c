@@ -38,8 +38,8 @@ void tree_insert(struct TreeNode *root, char **values) {
 	static int counter = 1;
 
 	if (root->child == NULL) {
-		root->child = allocate_node(*values);
-		if (counter % 4 != 0) {
+		root->child = allocate_node(*values);                                   //Sorted insert here.
+		if (counter % (INPUT_ARG_MAX_NUM - 1) != 0) {
 			counter++;
 			tree_insert(root->child, values+1);
 			return;
@@ -53,7 +53,7 @@ void tree_insert(struct TreeNode *root, char **values) {
 
 	while (root != NULL){
 		if (!strcmp(root->value, *values)){
-			if (counter % 4 != 0) {
+			if (counter % (INPUT_ARG_MAX_NUM - 1) != 0) {
 				counter++;
 				tree_insert(root, values+1);
 				return;
@@ -63,8 +63,8 @@ void tree_insert(struct TreeNode *root, char **values) {
 			}
 		}
 		if (root->sibling == NULL) {
-			root->sibling = allocate_node(*values);
-			if (counter % 4 != 0) {
+			root->sibling = allocate_node(*values);                             //Sorted insert here.
+			if (counter % (INPUT_ARG_MAX_NUM - 1) != 0) {
 				counter++;
 				tree_insert(root->sibling, values+1);
 				return;

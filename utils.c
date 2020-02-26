@@ -17,20 +17,20 @@ int tokenize(char *cmd, char **cmd_argv) {
         int counter = 0;
 
         char *token;
-        token = strtok(cmd, DELIMITERS);
+        token = strtok_r(cmd, DELIMITERS, &cmd);
 
         if (token != NULL) {
-                strcpy(*cmd_argv, token);
+                cmd_argv[counter] = token;
                 counter++;
-                token = strtok(cmd, DELIMITERS);
+                token = strtok_r(cmd, DELIMITERS, &cmd);
         } else {
-                fprintf(stderr, "No string was specified");
+                fprintf(stderr, "Invalid command.");
         }
 
         while (token != NULL) {
-                strcpy(*(cmd_argv + counter), token);
+                cmd_argv[counter] = token;
                 counter++;
-                token = strtok(cmd, DELIMITERS);
+                token = strtok_r(cmd, DELIMITERS, &cmd);
         }
         
 	return counter;

@@ -19,6 +19,7 @@
 struct TreeNode *allocate_node(const char *value) {
 
 	struct TreeNode *new_node = malloc(sizeof(struct TreeNode*));
+	new_node->value = malloc(INPUT_ARG_MAX_NUM*sizeof(char));
 	strcpy(new_node->value, value);
 	new_node->child = NULL;
 	new_node->sibling = NULL;
@@ -37,10 +38,10 @@ void tree_insert(struct TreeNode *root, char **values) {
 	static int counter = 1;
 
 	if (root->child == NULL) {
-		root->child = allocate_node(*values);
+		root->child = allocate_node(values[0]);
 		if (counter % 5 != 0) {
 			counter++;
-			tree_insert(root->child, values+1);
+			tree_insert(root->child, &values[1]);
 			return;
 		} else {
 			//Base case of recursion.
@@ -52,14 +53,14 @@ void tree_insert(struct TreeNode *root, char **values) {
 
 	while (root != NULL){
 		if (!strcmp(root->value, *values)){
-			tree_insert(root, values+1);
+			tree_insert(root, &values[1]);
 			return;
 		}
 		if (root->sibling == NULL) {
-			root->sibling = allocate_node(*values);
+			root->sibling = allocate_node(values[0]);
 			if (counter % 5 != 0) {
 				counter++;
-				tree_insert(root, values+1);
+				tree_insert(root, &values[1]);
 				return;
 			} else {
 				counter = 1;

@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Werror -std=gnu99
+CFLAGS = -Wall -Werror -std=gnu99 -g
 SOURCE = *.c
 HEADERS = tree.h utils.h
 OBJ = tree.o utils.o image_database.o
@@ -11,7 +11,7 @@ all: $(EXEC)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 image_database: tree.o utils.o image_database.o
-	$(CC) $(CFLAGS) -g -o $@ $^
+	$(CC) $(CFLAGS) -o $@ $^
 
 .PHONY: clean
 clean:

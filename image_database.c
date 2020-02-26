@@ -25,7 +25,6 @@ int main(void) {
 
         // Add your code below:
         while (fgets(buf, BUFFER_SIZE, stdin) != NULL) {
-                printf("%d", tokenize(buf, args));
                 if (tokenize(buf, args) > INPUT_ARG_MAX_NUM) {
                         fprintf(stderr, "Invalid command.");
                         exit(1);

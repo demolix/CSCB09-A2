@@ -40,6 +40,7 @@ void tree_insert(struct TreeNode *root, char **values) {
 	if (root->child == NULL) {
 		root->child = allocate_node(values[0]);
 		if (counter % 5 != 0) {
+
 			counter++;
 			tree_insert(root->child, &values[1]);
 			return;
@@ -48,19 +49,26 @@ void tree_insert(struct TreeNode *root, char **values) {
 			counter = 1;
 			return;
 		}
-	}
+	} 
 	root = root->child;
 
 	while (root != NULL){
 		if (!strcmp(root->value, *values)){
-			tree_insert(root, &values[1]);
-			return;
-		}
-		if (root->sibling == NULL) {
-			root->sibling = allocate_node(values[0]);
-			if (counter % 5 != 0) {
+
+			if (counter % (INPUT_ARG_MAX_NUM - 1) != 0) {
 				counter++;
 				tree_insert(root, &values[1]);
+				return;
+			} else {
+				counter = 1;
+				return;
+			}
+		}
+		if (root->sibling == NULL) {
+			root->sibling = allocate_node(*values);                             //Sorted insert here.
+			if (counter % (INPUT_ARG_MAX_NUM - 1) != 0) {
+				counter++;
+				tree_insert(root->sibling, &values[1]);
 				return;
 			} else {
 				counter = 1;

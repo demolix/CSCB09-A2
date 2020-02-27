@@ -37,7 +37,7 @@ int main(void) {
                 }
 
                 if (args[0][0] == 'i'){
-                        tree_insert(root_ptr, (args+1));
+                        tree_insert(root_ptr, &args[1]);
                 }
         }
 

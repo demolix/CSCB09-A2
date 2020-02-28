@@ -25,19 +25,23 @@ int main(void) {
 
         // Add your code below:
         // args[0] = malloc(sizeof(char));
+        int num_args;
 
         for (int i = 0; i < INPUT_ARG_MAX_NUM; i++) {
                 args[i] = malloc(sizeof(char)*BUFFER_SIZE);
         }
 
         while (fgets(buf, BUFFER_SIZE, stdin) != NULL) {
-                if (tokenize(buf, args) > INPUT_ARG_MAX_NUM) {
-                        fprintf(stderr, "Invalid command.");
-                        exit(1);
-                }
-
-                if (args[0][0] == 'i'){
-                        tree_insert(root_ptr, &args[1]);
+                if ((num_args = tokenize(buf, args)) > INPUT_ARG_MAX_NUM) {
+                        fprintf(stderr, "Invalid command.\n");
+                } else {
+                        if (args[0][0] == 'i' && num_args == INPUT_ARG_MAX_NUM) {
+                                tree_insert(root_ptr, &args[1]);
+                        } else if (args[0][0] == 'q' && num_args == INPUT_ARG_MAX_NUM - 1) {
+                                tree_search(root_ptr->child, &args[1]);
+                        } else {
+                                fprintf(stderr, "Invalid command.\n");
+                        }
                 }
         }
 

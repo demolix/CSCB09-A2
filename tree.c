@@ -17,6 +17,7 @@
  *  (for now it returns NULL, so the compiler does not complain)
  */
 static int counter = 1;
+static int search_depth = 1;
 
 struct TreeNode *allocate_node(const char *value) {
 
@@ -41,7 +42,7 @@ void level_insert(struct TreeNode *head, char **values, int *counter) {
 			return;
 		} else if (strcmp(head->sibling->value, values[0]) > 0) {
 			struct TreeNode *temp = head->sibling;
-			head->sibling = allocate_node(values[0]);                             //Sorted insert here.
+			head->sibling = allocate_node(values[0]);                          
 			head->sibling->sibling = temp;
 			(*counter)++;
 			tree_insert(head->sibling, &values[1]);
@@ -59,14 +60,12 @@ void level_insert(struct TreeNode *head, char **values, int *counter) {
  *                the image and the last one is the filename
  */
 void tree_insert(struct TreeNode *root, char **values) {
-	//struct TreeNode head = root->child;
 
 	if (counter % (INPUT_ARG_MAX_NUM) == 0) {
 		counter = 1;
 		// Base case of recursion.
 		return;
 	}
-
 
 	if (root->child == NULL) {
 		root->child = allocate_node(values[0]);
@@ -84,47 +83,32 @@ void tree_insert(struct TreeNode *root, char **values) {
 		tree_insert(root->child, &values[1]);
 		return;
 	}
-
-	////////
-
+	
 	level_insert(root->child, values, &counter);
-
-	// if (root->sibling == NULL) {
-	// 	if (strcmp(root->value, *values) < 0){
-	// 		counter++;
-	// 		tree_insert(root->sibling, &values[1]);
-	// 		return;	
-	// 	} else if (!strcmp(root->value, *values)) {
-	// 		counter++;
-	// 		tree_insert(root, &values[1]);
-	// 		return;
-	// 	}
-	// }
-
-	// if (root->sibling != NULL) {
-	// 	if (strcmp(root->value, *values) < 0){
-	// 		counter++;
-	// 		tree_insert(root->sibling, &values[1]);
-	// 		return;	
-	// 	} else if (!strcmp(root->value, *values)) {
-	// 		counter++;
-	// 		tree_insert(root->child, &values[1]);
-	// 		return;
-	// 	}else if (strcmp(root->sibling->value, *values) > 0) {
-	// 		struct TreeNode *temp = root->sibling;
-	// 		root->sibling = allocate_node(values[0]);                             //Sorted insert here.
-	// 		root->sibling->sibling = temp;
-	// 		counter++;
-	// 		tree_insert(root->sibling, &values[1]);
-	// 		return;
-	// 	}
-	// }
-
-	
-	
-
 }
 
+/*
+ * HELPER FUNCTIONS FOR TREE_SEARCH FOLLOW:
+ */
+
+struct TreeNode *in_this_level(struct TreeNode *root, char *value) {
+	while (root != NULL) {
+		if (!strcmp(root->value, value)) {
+			return root;
+		}
+		root = root->sibling;
+	}
+	return NULL;
+} 
+
+
+void print_list(struct TreeNode *head) {
+	while (head != NULL) {
+		printf("%s ", head->value);
+		head = head->sibling;
+	}
+	printf("\n");
+}
 /**
  *  Searches a tree to print all files with matching attribute values.
  *
@@ -132,6 +116,26 @@ void tree_insert(struct TreeNode *root, char **values) {
  *  @param values An array of attribute values
  */
 void tree_search(const struct TreeNode *root, char **values) {
+	//Base case of recursion.
+	struct TreeNode *curr = malloc(sizeof(struct TreeNode));
+	*curr = *root;
+
+	if (search_depth % (INPUT_ARG_MAX_NUM - 1) == 0) {
+		search_depth = 1;
+		print_list(curr);
+		free(curr);
+		return;
+	}
+
+	if ((curr = in_this_level(curr, values[0])) != NULL) {
+		search_depth++;
+		tree_search(curr->child, &values[1]);
+	} else {
+		search_depth = 1;
+		printf("(NULL)\n");
+	}
+	free(curr);
+	
 }
 
 /**

@@ -24,7 +24,7 @@ int tokenize(char *cmd, char **cmd_argv) {
                 counter++;
                 token = strtok_r(cmd, DELIMITERS, &cmd);
         } else {
-                fprintf(stderr, "Invalid command.");
+                fprintf(stderr, "Invalid command.\n");
         }
 
         while (token != NULL) {

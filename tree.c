@@ -138,10 +138,34 @@ void tree_search(const struct TreeNode *root, char **values) {
 	
 }
 
+/*
+ * HELPERS FOR TREE_PRINT:
+ */
+
+void recursive_print() {
+	while (level_node != NULL) {
+		if (level_node->child == NULL) {
+			strcat(cum_string, level_node->value);
+			printf("%s\n", cum_string);
+			return;
+		}
+		recursive_print(next_level_node, cum_string);
+	}
+}
+
 /**
  *  Prints a complete tree to the standard output.
  *
  *  @param tree A pointer to the root of the tree.
  */
 void tree_print(const struct TreeNode *tree) {
+	if (tree->child == NULL) {
+		printf("(NULL)\n");
+	}
+
+	struct TreeNode attr_itr[INPUT_ARG_MAX_NUM - 1];
+
+	for (int i = 0; i < INPUT_ARG_MAX_NUM - 1; i++) {
+		recursive_print(attr_itr[i]);
+	}
 }

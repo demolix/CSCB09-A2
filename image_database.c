@@ -39,7 +39,9 @@ int main(void) {
                                 tree_insert(root_ptr, &args[1]);
                         } else if (args[0][0] == 'q' && num_args == INPUT_ARG_MAX_NUM - 1) {
                                 tree_search(root_ptr->child, &args[1]);
-                        } else {
+                        } else if (args[0][0] == 'p' && num_args == 1) {
+                                tree_print(root_ptr);
+                        }else {
                                 fprintf(stderr, "Invalid command.\n");
                         }
                 }

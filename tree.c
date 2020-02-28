@@ -138,6 +138,7 @@ void tree_search(const struct TreeNode *root, char **values) {
 	
 }
 
+
 /*
  * HELPERS FOR TREE_PRINT:
  */
@@ -153,6 +154,7 @@ void recursive_print() {
 	}
 }
 
+
 /**
  *  Prints a complete tree to the standard output.
  *
@@ -161,11 +163,30 @@ void recursive_print() {
 void tree_print(const struct TreeNode *tree) {
 	if (tree->child == NULL) {
 		printf("(NULL)\n");
+		return;
 	}
 
-	struct TreeNode attr_itr[INPUT_ARG_MAX_NUM - 1];
+	int total_levels = INPUT_ARG_MAX_NUM - 1;
+	struct TreeNode *all_levels[total_levels];
+	struct TreeNode *curr = malloc(sizeof(struct TreeNode));
+	*curr = *tree;
 
-	for (int i = 0; i < INPUT_ARG_MAX_NUM - 1; i++) {
-		recursive_print(attr_itr[i]);
+
+	for (int i = 0; i < total_levels; i++) {
+		all_levels[i] = curr;
+		curr = curr->child;
+ 	}
+
+	while (all_levels[0] != NULL) {
+		for (int i = 0; i < total_levels; i++) {
+			printf("%s ", all_levels[i]->value);
+		}
+		printf("\n");
+		if (all_levels[INPUT_ARG_MAX_NUM - i]->sibling != NULL){
+			all_levels[INPUT_ARG_MAX_NUM - i] = sibling;
+		} else {
+			all_levels[INPUT_ARG_MAX_NUM - i - 1] = its_sibling;
+		}
 	}
+
 }

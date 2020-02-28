@@ -165,6 +165,7 @@ int is_root(const struct TreeNode *root, struct TreeNode *node) {
 
 void realign_all_levels(struct TreeNode **all_levels, int ind) {
 	if (all_levels[ind] == NULL) {return;}
+	
 	while (all_levels[ind]->child != NULL) {
 		all_levels[ind + 1] = all_levels[ind]->child;
 		ind++;
@@ -172,6 +173,8 @@ void realign_all_levels(struct TreeNode **all_levels, int ind) {
 }
 
 int is_valid_all_levels(struct TreeNode **all_levels, int total_levels) {
+	if (all_levels[0] == NULL) {return 1;}
+
 	for (int i = 0; i < total_levels; i++) {
 		if (all_levels[i] == NULL) {
 			return 0;
@@ -191,8 +194,9 @@ void tree_print(const struct TreeNode *tree) {
 		return;
 	}
 
-	int print_depth = 1;
+	int outer_break = 0;
 	int total_levels = INPUT_ARG_MAX_NUM;
+	//int print_depth = total_levels - 1;
 	struct TreeNode *all_levels[total_levels];
 	struct TreeNode *curr = malloc(sizeof(struct TreeNode));
 	*curr = *tree;
@@ -204,7 +208,7 @@ void tree_print(const struct TreeNode *tree) {
 		itr++;
  	}
 
-	while (all_levels[0] != NULL) {
+	while (1) {
 		for (int i = 1; i < total_levels; i++) {
 			printf("%s ", all_levels[i]->value);
 		}
@@ -237,16 +241,30 @@ void tree_print(const struct TreeNode *tree) {
 		 * 
 		 * 
 		 */
-		while (!is_valid_all_levels(all_levels, total_levels)){
-			if (all_levels[total_levels - print_depth]->sibling != NULL || is_root(tree, all_levels[total_levels - print_depth])) {
-				all_levels[total_levels - print_depth] = all_levels[total_levels - print_depth]->sibling;
-				realign_all_levels(all_levels, total_levels - print_depth);
-			} else {
-				print_depth++;
-				all_levels[total_levels - print_depth] = all_levels[total_levels - print_depth]->sibling;
-				realign_all_levels(all_levels, total_levels - print_depth);
+		
+		//if (all_levels[total_levels - print_depth]->sibling != NULL || is_root(tree, all_levels[total_levels - print_depth])) {
+		//if (all_levels[total_levels - print_depth]->sibling != NULL) {
+		//	all_levels[total_levels - print_depth] = all_levels[total_levels - print_depth]->sibling;
+			//realign_all_levels(all_levels, total_levels - print_depth);
+			
+		//} else {
+		for (int i = total_levels - 1; i > 0; i--) {
+			//print_depth++;
+			if (all_levels[i]->sibling != NULL) {
+				all_levels[i] = all_levels[i]->sibling;
+				realign_all_levels(all_levels, i);
+				//print_depth = 1;
+				outer_break = 0;
+				break;
 			}
 		}
+		if (!outer_break) {
+			continue;
+		}
+		break;
+		//}
+
+		// } while (!is_valid_all_levels(all_levels, total_levels) || break_loop);
 	}
 	free(curr);
 

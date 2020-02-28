@@ -19,6 +19,7 @@
 static int counter = 1;
 static int search_depth = 1;
 
+
 struct TreeNode *allocate_node(const char *value) {
 
 	struct TreeNode *new_node = malloc(sizeof(struct TreeNode));
@@ -143,17 +144,41 @@ void tree_search(const struct TreeNode *root, char **values) {
  * HELPERS FOR TREE_PRINT:
  */
 
-void recursive_print() {
-	while (level_node != NULL) {
-		if (level_node->child == NULL) {
-			strcat(cum_string, level_node->value);
-			printf("%s\n", cum_string);
-			return;
-		}
-		recursive_print(next_level_node, cum_string);
+// void recursive_print() {
+// 	while (level_node != NULL) {
+// 		if (level_node->child == NULL) {
+// 			strcat(cum_string, level_node->value);
+// 			printf("%s\n", cum_string);
+// 			return;
+// 		}
+// 		recursive_print(next_level_node, cum_string);
+// 	}
+// }
+
+
+int is_root(const struct TreeNode *root, struct TreeNode *node) {
+	if (!strcmp(root->value, node->value)) {
+		return 1;
+	}
+	return 0;
+}
+
+void realign_all_levels(struct TreeNode **all_levels, int ind) {
+	if (all_levels[ind] == NULL) {return;}
+	while (all_levels[ind]->child != NULL) {
+		all_levels[ind + 1] = all_levels[ind]->child;
+		ind++;
 	}
 }
 
+int is_valid_all_levels(struct TreeNode **all_levels, int total_levels) {
+	for (int i = 0; i < total_levels; i++) {
+		if (all_levels[i] == NULL) {
+			return 0;
+		}
+	}
+	return 1;
+}
 
 /**
  *  Prints a complete tree to the standard output.
@@ -166,27 +191,63 @@ void tree_print(const struct TreeNode *tree) {
 		return;
 	}
 
-	int total_levels = INPUT_ARG_MAX_NUM - 1;
+	int print_depth = 1;
+	int total_levels = INPUT_ARG_MAX_NUM;
 	struct TreeNode *all_levels[total_levels];
 	struct TreeNode *curr = malloc(sizeof(struct TreeNode));
 	*curr = *tree;
 
-
-	for (int i = 0; i < total_levels; i++) {
-		all_levels[i] = curr;
+	int itr = 0;
+	while (curr != NULL) {
+		all_levels[itr] = curr;
 		curr = curr->child;
+		itr++;
  	}
 
 	while (all_levels[0] != NULL) {
-		for (int i = 0; i < total_levels; i++) {
+		for (int i = 1; i < total_levels; i++) {
 			printf("%s ", all_levels[i]->value);
 		}
 		printf("\n");
-		if (all_levels[INPUT_ARG_MAX_NUM - i]->sibling != NULL){
-			all_levels[INPUT_ARG_MAX_NUM - i] = sibling;
-		} else {
-			all_levels[INPUT_ARG_MAX_NUM - i - 1] = its_sibling;
+		/**
+		 * curr = all_levels[total] 
+		 * while (true) {
+		 *     if (counter % (INPUT_SIZE_MAX - 1) == 0) {
+		 * 	   		all_levels[0] = NULL;
+		 * 			break; 
+		 *     }
+		 * 	   all_levels[total_levels - counter] = its_sibling;
+		 * 	   if (all_levels[total_levels - counter] == NULL):
+		 * 			counter++;
+		 * 			continue;
+		 * 	   else {	if (all_levels[total_levels - print_depth]->sibling != NULL || is_root(tree, all_levels[total_levels - print_depth])) {
+				all_levels[total_levels - print_depth] = all_levels[total_levels - counter]->sibling;
+				realign_all_levels(all_levels, total_levels - counter);
+			} else {
+				print_depth++;
+				all_levels[total_levels - print_depth] = all_levels[total_levels - print_depth]->sibling;
+				realign_all_levels(all_levels, total_levels - counter);
+			}
+		 * 			realign;
+		 * 			break;
+		 * 	   }
+		 * }
+		 * 
+		 * 
+		 * 
+		 * 
+		 */
+		while (!is_valid_all_levels(all_levels, total_levels)){
+			if (all_levels[total_levels - print_depth]->sibling != NULL || is_root(tree, all_levels[total_levels - print_depth])) {
+				all_levels[total_levels - print_depth] = all_levels[total_levels - print_depth]->sibling;
+				realign_all_levels(all_levels, total_levels - print_depth);
+			} else {
+				print_depth++;
+				all_levels[total_levels - print_depth] = all_levels[total_levels - print_depth]->sibling;
+				realign_all_levels(all_levels, total_levels - print_depth);
+			}
 		}
 	}
+	free(curr);
 
 }

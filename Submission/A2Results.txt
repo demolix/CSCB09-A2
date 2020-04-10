@@ -1,0 +1,139 @@
+=======================================================================================================================================================
+utorID: singh814
+
+===== Testing compilation and error messages =====
+WARNINGS during compilation:
+
+utils.c: In function 'tokenize':
+utils.c:20:17: warning: implicit declaration of function 'strtok_r'; did you mean '__strtok_r'? [-Wimplicit-function-declaration]
+         token = strtok_r(cmd, DELIMITERS, &cmd);
+                 ^~~~~~~~
+                 __strtok_r
+utils.c:20:15: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+         token = strtok_r(cmd, DELIMITERS, &cmd);
+               ^
+utils.c:25:23: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+                 token = strtok_r(cmd, DELIMITERS, &cmd);
+                       ^
+utils.c:33:23: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+                 token = strtok_r(cmd, DELIMITERS, &cmd);
+                       ^
+
+===== Testing invalid command entered - not i, q or p =====
+./image_database < current_test_input.txt > student_stdout.txt 2> student_stderr.txt
+[ERROR]: Segmentation Fault
+
+===== Testing invalid command entered - more than 5 args for i =====
+./image_database < current_test_input.txt > student_stdout.txt 2> student_stderr.txt
+[LOG] stdout output:
+
+[LOG] stderr output:
+Invalid command.
+
+[PASS] Correct output
+
+===== Testing invalid command entered - less than 5 args for i =====
+./image_database < current_test_input.txt > student_stdout.txt 2> student_stderr.txt
+[ERROR]: Segmentation Fault
+
+===== Testing invalid command entered - more than 4 args for q =====
+./image_database < current_test_input.txt > student_stdout.txt 2> student_stderr.txt
+[ERROR]: Segmentation Fault
+
+===== Testing invalid command entered - less than 4 args for q =====
+./image_database < current_test_input.txt > student_stdout.txt 2> student_stderr.txt
+[ERROR]: Segmentation Fault
+
+===== Testing invalid command entered - more than 1 arg to p =====
+./image_database < current_test_input.txt > student_stdout.txt 2> student_stderr.txt
+[ERROR]: Segmentation Fault
+
+===== Testing functionality - Insert one file =====
+
+Testing tree structure...
+
+Invoking: ./image_database < current_test_input.txt > student_stdout.txt 2> student_stderr.txt
+[ERROR]: Segmentation Fault
+
+Testing Queries...
+
+Invoking: ./image_database < current_test_input.txt > student_stdout.txt 2> student_stderr.txt
+[ERROR]: Segmentation Fault
+
+Testing Print...
+
+Invoking: ./image_database < current_test_input.txt > student_stdout.txt 2> student_stderr.txt
+[ERROR]: Segmentation Fault
+
+
+===== Testing functionality - Insert multiple files with same attribute =====
+
+Testing tree structure...
+
+Invoking: ./image_database < current_test_input.txt > student_stdout.txt 2> student_stderr.txt
+[ERROR]: Segmentation Fault
+
+Testing Queries...
+
+Invoking: ./image_database < current_test_input.txt > student_stdout.txt 2> student_stderr.txt
+[ERROR]: Segmentation Fault
+
+Testing Print...
+
+Invoking: ./image_database < current_test_input.txt > student_stdout.txt 2> student_stderr.txt
+[ERROR]: Segmentation Fault
+
+
+===== Testing functionality - Insert multiple files with different attribute =====
+
+Testing tree structure...
+
+Invoking: ./image_database < current_test_input.txt > student_stdout.txt 2> student_stderr.txt
+[ERROR]: Segmentation Fault
+
+Testing Queries...
+
+Invoking: ./image_database < current_test_input.txt > student_stdout.txt 2> student_stderr.txt
+[ERROR]: Segmentation Fault
+
+Testing Print...
+
+Invoking: ./image_database < current_test_input.txt > student_stdout.txt 2> student_stderr.txt
+[ERROR]: Segmentation Fault
+
+
+===== Testing functionality - Insert multiple files with 1st attribute same and 2nd and 3rd attribute different =====
+
+Testing tree structure...
+
+Invoking: ./image_database < current_test_input.txt > student_stdout.txt 2> student_stderr.txt
+[ERROR]: Segmentation Fault
+
+Testing Queries...
+
+Invoking: ./image_database < current_test_input.txt > student_stdout.txt 2> student_stderr.txt
+[ERROR]: Segmentation Fault
+
+Testing Print...
+
+Invoking: ./image_database < current_test_input.txt > student_stdout.txt 2> student_stderr.txt
+[ERROR]: Segmentation Fault
+
+
+===== Testing functionality - Insert multiple files with different combination of attributes repeating =====
+
+Testing tree structure...
+
+Invoking: ./image_database < current_test_input.txt > student_stdout.txt 2> student_stderr.txt
+[ERROR]: Segmentation Fault
+
+Testing Queries...
+
+Invoking: ./image_database < current_test_input.txt > student_stdout.txt 2> student_stderr.txt
+[ERROR]: Segmentation Fault
+
+Testing Print...
+
+Invoking: ./image_database < current_test_input.txt > student_stdout.txt 2> student_stderr.txt
+[ERROR]: Segmentation Fault
+
